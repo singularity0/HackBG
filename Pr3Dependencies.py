@@ -5,30 +5,41 @@ installed = fileIns.read()
 
 # read the needed technologies
 dependancies = json.load(open("dependencies.json"))
-dp = dependancies['dependencies']   # shortening
-dpToStr = ''.join(dp)
+dpToStr = ''.join(dependancies['dependencies'] )
+update_file = open('installed_module', 'a')						
+allPacks = json.load(open('all_packages.json'))
+selected = allPacks[dpToStr]
+
+def traverse_allpacks(selected):
+	for alll in selected:
+		if alll in installed:
+			print ('{0} is allready installed'.format(alll.capitalize()))
+		else:
+			
+			print ('Installing: {0}....'.format(alll))
+			update_tech = update_file.writelines('\n{0}'.format(alll))
+			for i in range (0, len(allPacks[alll])):
+				
+				if allPacks[alll][i] in installed:
+					print('In order to install {0}, we need {1}.'.format(alll, allPacks[alll][i]), end = ' ')
+				else:
+					print('In order to install {0}, we need {1}'.format(alll, allPacks[alll][i]))
+			if allPacks[alll] :		
+				selected = allPacks[alll]
+				traverse_allpacks(selected)
 
 if dpToStr in installed:
-	print ('All done.')
+	print ('Maa\'man you are fully set to start the project.  All techs are already under your belt!')
 else: 
-	allPacks = json.load(open('all_packages.json'))
-	selected = allPacks[dpToStr]
-	print('In order to install {0}, we need {1} and {2}.'.format(dpToStr, selected[0], selected[1]))
-	for i in range (0, len(selected)):
-		if selected[i] not in installed:
-			print ('Installing {}.'.format(selected[i]))
-		else:
-			print ('{} is already installed.'.format(selected[i]))
-		selected2 = allPacks[selected[i]]
-		print ('In order to install {0}, we need {1}'.format(selected[i],selected2[0]))
+	print ('Installing {0}'.format(dpToStr))
+	print('In order to install {0}, we need:'.format(dpToStr) , end = ' ') 
+	for i in (0, len(selected)-1):
+		print (selected[i], end = ' ')
+		if len(selected) > 0 and i < len(selected)-1 : 
+			print ('and', end = ' ')
+	print()
 
-		if selected2[0] not in installed:
-			print ('Installing {}.'.format(selected2[0]))
-		else:
-			print ('{} is already installed.'.format(selected2[0]))
+traverse_allpacks(selected)
 
-		# for j in range (0, len(selected2)):
-		# 	selected31 = allPacks[selected2[j]]
-
-
+update_file.close()
 fileIns.close()
