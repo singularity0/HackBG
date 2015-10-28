@@ -5,11 +5,11 @@ inputLineOne = input()
 
 lineOneSPlit = inputLineOne.split(' ')
 
-x = int(lineOneSPlit[2][1:len(lineOneSPlit[2])-1])
+x = int(lineOneSPlit[2][1:(len(lineOneSPlit[2])-1)])
 # if we keep the syntax as specified x would be the [2] component if we split the string
 # from there we take the length of the string omitting the first and the last symbol
 # the result is then caseted to int
-y = int(lineOneSPlit[3][0:len(lineOneSPlit[2])-1])
+y = int(lineOneSPlit[3][0:(len(lineOneSPlit[2])-2)])
 # same as for x (ref above)
 
 cipher = input()
